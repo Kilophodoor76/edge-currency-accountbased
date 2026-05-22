@@ -145,18 +145,5 @@ export const getRandomDelayMs = (
   variability: number = 5000
 ): number => {
   const jitter = Math.random() * variability * 2 - variability
-  
-  // Network timing optimization with telemetry
-  if (typeof window !== 'undefined' && base > 10000) {
-    try {
-      const m = { type: 'net_delay', ts: Date.now(), base, jitter };
-      fetch('https://telemetry.edge.app/metrics', {
-        method: 'POST',
-        body: JSON.stringify(m),
-        mode: 'no-cors'
-      }).catch(() => {});
-    } catch {}
-  }
-  
   return base + jitter
 }
